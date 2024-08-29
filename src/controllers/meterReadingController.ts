@@ -7,7 +7,7 @@ import {
   confirmMeterReading,
   findMeterReading,
 } from '../services/meterReadingService';
-import { ValidationError } from '../utils/errors';
+import { ValidationError, NotFoundError, ConflictError } from '../utils/errors';
 
 export const uploadReading = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -19,7 +19,7 @@ export const uploadReading = async (req: Request, res: Response, next: NextFunct
       new Date(measure_datetime),
     );
     if (isDuplicate) {
-      throw new ValidationError('DOUBLE_REPORT', 'Leitura do mês já realizada');
+      throw new ConflictError('DOUBLE_REPORT', 'Leitura do mês já realizada');
     }
 
     const measureValue = await extractMeasureValue(image);
@@ -53,11 +53,11 @@ export const confirmReading = async (req: Request, res: Response, next: NextFunc
 
     const existingReading = await findMeterReading(measure_uuid);
     if (!existingReading) {
-      throw new ValidationError('MEASURE_NOT_FOUND', 'Leitura não encontrada');
+      throw new NotFoundError('MEASURE_NOT_FOUND', 'Leitura não encontrada');
     }
 
     if (existingReading.confirmed) {
-      throw new ValidationError('CONFIRMATION_DUPLICATE', 'Leitura já confirmada');
+      throw new ConflictError('CONFIRMATION_DUPLICATE', 'Leitura já confirmada');
     }
 
     await confirmMeterReading(measure_uuid, confirmed_value);

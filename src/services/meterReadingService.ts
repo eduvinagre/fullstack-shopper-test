@@ -22,7 +22,7 @@ export const checkDuplicateReading = async (
   // return !!existingReading;
 
   // Will just return false to simulate no duplicates NEEDS IMPROVEMENT!!!!
-  return false;
+  return true;
 };
 
 export const saveMeterReading = async (
