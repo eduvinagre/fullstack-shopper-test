@@ -1,9 +1,11 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
+const genAI = new GoogleGenerativeAI(
+  process.env.GEMINI_API_KEY || 'AIzaSyCaqF4jkZ3_KNyjaKxvo62FB4OQWKFKBm0',
+);
 
 export const extractMeasureValue = async (imageBase64: string): Promise<number> => {
-  const model = genAI.getGenerativeModel({ model: 'gemini-pro-vision' });
+  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-pro' });
 
   const prompt =
     'Analyze this image of a water or gas meter. What is the current reading shown on the meter? Please respond with only the numeric value, without any additional text or explanation.';
