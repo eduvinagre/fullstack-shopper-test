@@ -26,14 +26,6 @@ const errorHandler = (err: Error, req: Request, res: Response, next: NextFunctio
     });
   }
 
-  const validationErrors = validationResult(req);
-  if (!validationErrors.isEmpty()) {
-    return res.status(400).json({
-      error_code: 'INVALID_DATA',
-      error_description: validationErrors.array()[0].msg,
-    });
-  }
-
   res.status(500).json({
     error_code: 'INTERNAL_SERVER_ERROR',
     error_description: 'An unexpected error occurred',

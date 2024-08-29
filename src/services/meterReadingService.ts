@@ -59,11 +59,11 @@ export const saveMeterReading = async (
 };
 
 export const findMeterReading = async (measureUuid: string): Promise<MeterReading | null> => {
-  // Implementação mock. Em uma aplicação real, você faria uma consulta ao banco de dados aqui.
-  // Por exemplo:
+  // This is a Mock implementation. Probably will use Docker as a postgres DB
+  // Thought:
   // return await MeterReading.findOne({ where: { id: measureUuid } });
 
-  // Para fins de demonstração, vamos retornar um objeto mock se o UUID for '12345'
+  // THIS IS A MOCK DEMONSTRATION ONLY, WILL RETURN AN OBJECT IF USER UUID IS '12345'
   if (measureUuid === '12345') {
     return {
       id: '12345',
@@ -89,4 +89,57 @@ export const confirmMeterReading = async (
   // await MeterReading.update({ confirmed: true, measureValue: confirmedValue }, { where: { id: measureUuid } });
 
   console.log(`Confirmando leitura ${measureUuid} com valor ${confirmedValue}`);
+};
+
+export const listMeasuresByCustomer = async (
+  customerCode: string,
+  measureType?: string,
+): Promise<MeterReading[]> => {
+  // Mock implementation. Maybe I'll be using Docker to make a postgres SQL
+  // Thought:
+  // let query = MeterReading.find({ customerCode });
+  // if (measureType) {
+  //   query = query.where('measureType').equals(measureType.toUpperCase());
+  // }
+  // return await query.exec();
+
+  // ATTENTION THIS IS A MOCK EXAMPLE FOR FIRST CODES TESTS
+  const mockDatabase: { [key: string]: MeterReading[] } = {
+    '12345': [
+      {
+        id: '12345-1',
+        customerCode: '12345',
+        measureType: 'WATER',
+        measureDatetime: new Date(),
+        measureValue: 100,
+        imageUrl: 'https://example.com/image1.jpg',
+        confirmed: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: '12345-2',
+        customerCode: '12345',
+        measureType: 'GAS',
+        measureDatetime: new Date(),
+        measureValue: 50,
+        imageUrl: 'https://example.com/image2.jpg',
+        confirmed: false,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+    ],
+  };
+
+  if (!mockDatabase[customerCode]) {
+    return [];
+  }
+
+  let measures = mockDatabase[customerCode];
+
+  if (measureType) {
+    measures = measures.filter((m) => m.measureType.toUpperCase() === measureType.toUpperCase());
+  }
+
+  return measures;
 };

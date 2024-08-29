@@ -6,6 +6,7 @@ import {
   saveMeterReading,
   confirmMeterReading,
   findMeterReading,
+  listMeasuresByCustomer,
 } from '../services/meterReadingService';
 import { ValidationError, NotFoundError, ConflictError } from '../utils/errors';
 
@@ -63,6 +64,32 @@ export const confirmReading = async (req: Request, res: Response, next: NextFunc
     await confirmMeterReading(measure_uuid, confirmed_value);
 
     res.status(200).json({ success: true });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const listMeasures = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { customer_code } = req.params;
+    const measure_type = req.query.measure_type as string | undefined;
+
+    const measures = await listMeasuresByCustomer(customer_code, measure_type);
+
+    if (measures.length === 0) {
+      throw new NotFoundError('MEASURES_NOT_FOUND', 'Nenhuma leitura encontrada');
+    }
+
+    res.status(200).json({
+      customer_code,
+      measures: measures.map((m) => ({
+        measure_uuid: m.id,
+        measure_datetime: m.measureDatetime,
+        measure_type: m.measureType,
+        has_confirmed: m.confirmed,
+        image_url: m.imageUrl,
+      })),
+    });
   } catch (error) {
     next(error);
   }
