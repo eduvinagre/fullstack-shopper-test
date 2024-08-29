@@ -1,7 +1,7 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
 const genAI = new GoogleGenerativeAI(
-  process.env.GEMINI_API_KEY || 'AIzaSyCaqF4jkZ3_KNyjaKxvo62FB4OQWKFKBm0',
+  process.env.GEMINI_API_KEY || '',
 );
 
 export const extractMeasureValue = async (imageBase64: string): Promise<number> => {

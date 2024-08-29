@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import { extractMeasureValue } from '../services/geminiService';
 import { checkDuplicateReading, saveMeterReading } from '../services/meterReadingService';
+import { ValidationError } from '../utils/errors';
 
 export const uploadReading = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -13,15 +14,12 @@ export const uploadReading = async (req: Request, res: Response, next: NextFunct
       new Date(measure_datetime),
     );
     if (isDuplicate) {
-      return res.status(409).json({
-        error_code: 'DOUBLE_REPORT',
-        error_description: 'Leitura do mês já realizada',
-      });
+      throw new ValidationError('DOUBLE_REPORT', 'Leitura do mês já realizada');
     }
 
     const measureValue = await extractMeasureValue(image);
 
-    // Generate temporary URL for image (mock)
+    // Gerar URL temporária para a imagem (mock)
     const imageUrl = `https://example.com/temp-images/${uuidv4()}.jpg`;
 
     const savedReading = await saveMeterReading(
