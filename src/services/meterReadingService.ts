@@ -84,8 +84,8 @@ export const confirmMeterReading = async (
   measureUuid: string,
   confirmedValue: number,
 ): Promise<void> => {
-  // Implementação mock. Em uma aplicação real, você atualizaria o registro no banco de dados.
-  // Por exemplo:
+  // Mock implementation. Same as the others above.
+  // Another thought:
   // await MeterReading.update({ confirmed: true, measureValue: confirmedValue }, { where: { id: measureUuid } });
 
   console.log(`Confirmando leitura ${measureUuid} com valor ${confirmedValue}`);
