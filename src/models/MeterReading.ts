@@ -5,6 +5,7 @@ export interface MeterReading {
   measureDatetime: Date;
   measureValue: number;
   imageUrl: string;
+  confirmed: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

@@ -22,3 +22,16 @@ export const validateUpload = [
     next();
   },
 ];
+
+export const validateConfirmation = [
+  body('measure_uuid').isString().withMessage('Measure UUID must be a string'),
+  body('confirmed_value').isInt().withMessage('Confirmed value must be an integer'),
+  (req: Request, res: Response, next: NextFunction) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const error = errors.array()[0];
+      throw new ValidationError('INVALID_DATA', error.msg);
+    }
+    next();
+  },
+];

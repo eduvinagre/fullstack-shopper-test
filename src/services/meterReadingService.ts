@@ -52,7 +52,41 @@ export const saveMeterReading = async (
     measureDatetime,
     measureValue,
     imageUrl,
+    confirmed: false,
     createdAt: new Date(),
     updatedAt: new Date(),
   };
+};
+
+export const findMeterReading = async (measureUuid: string): Promise<MeterReading | null> => {
+  // Implementação mock. Em uma aplicação real, você faria uma consulta ao banco de dados aqui.
+  // Por exemplo:
+  // return await MeterReading.findOne({ where: { id: measureUuid } });
+
+  // Para fins de demonstração, vamos retornar um objeto mock se o UUID for '12345'
+  if (measureUuid === '12345') {
+    return {
+      id: '12345',
+      customerCode: 'CUST001',
+      measureType: 'WATER',
+      measureDatetime: new Date(),
+      measureValue: 100,
+      imageUrl: 'https://example.com/image.jpg',
+      confirmed: false,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+  }
+  return null;
+};
+
+export const confirmMeterReading = async (
+  measureUuid: string,
+  confirmedValue: number,
+): Promise<void> => {
+  // Implementação mock. Em uma aplicação real, você atualizaria o registro no banco de dados.
+  // Por exemplo:
+  // await MeterReading.update({ confirmed: true, measureValue: confirmedValue }, { where: { id: measureUuid } });
+
+  console.log(`Confirmando leitura ${measureUuid} com valor ${confirmedValue}`);
 };
