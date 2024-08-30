@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client';
+import { MeterReading } from '../types/meterReading';
 
 const prisma = new PrismaClient();
 
@@ -51,11 +52,14 @@ export const confirmMeterReading = async (measureUuid: string, confirmedValue: n
   });
 };
 
-export const listMeasuresByCustomer = async (customerCode: string, measureType?: string) => {
+export const listMeasuresByCustomer = async (
+  customerCode: string,
+  measureType?: string,
+): Promise<MeterReading[]> => {
   return prisma.meterReading.findMany({
     where: {
       customerCode,
       ...(measureType && { measureType: measureType.toUpperCase() }),
     },
-  });
+  }) as Promise<MeterReading[]>;
 };

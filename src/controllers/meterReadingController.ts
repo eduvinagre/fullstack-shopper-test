@@ -8,7 +8,8 @@ import {
   findMeterReading,
   listMeasuresByCustomer,
 } from '../services/meterReadingService';
-import { ValidationError, NotFoundError, ConflictError } from '../utils/errors';
+import { NotFoundError, ConflictError } from '../utils/errors';
+import { MeterReading } from '../types/meterReading';
 
 export const uploadReading = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -82,7 +83,7 @@ export const listMeasures = async (req: Request, res: Response, next: NextFuncti
 
     res.status(200).json({
       customer_code,
-      measures: measures.map((m) => ({
+      measures: measures.map((m: MeterReading) => ({
         measure_uuid: m.id,
         measure_datetime: m.measureDatetime,
         measure_type: m.measureType,

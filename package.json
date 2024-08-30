@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "node dist/app.js",
-    "build": "tsc",
+    "build": "prisma generate && tsc",
     "dev": "ts-node src/app.ts",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate deploy",
@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@google/generative-ai": "^0.17.1",
+    "@prisma/client": "^5.19.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "express-validator": "^7.2.0",
