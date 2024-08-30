@@ -2,8 +2,11 @@
   "name": "water-gas-meter-backend",
   "version": "1.0.0",
   "scripts": {
-    "start": "ts-node src/app.ts",
+    "start": "node dist/app.js",
     "build": "tsc",
+    "dev": "ts-node src/app.ts",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate deploy",
     "lint": "eslint . --ext .ts",
     "format": "prettier --write \"src/**/*.ts\"",
     "test": "jest"

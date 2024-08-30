@@ -1,0 +1,22 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model MeterReading {
+  id              String   @id @default(uuid())
+  customerCode    String
+  measureType     String
+  measureDatetime DateTime
+  measureValue    Float
+  imageUrl        String
+  confirmed       Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([customerCode])
+}

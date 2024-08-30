@@ -5,7 +5,26 @@ services:
     ports:
       - "3000:3000"
     environment:
+      - DATABASE_URL=postgresql://user:password@postgres:5432/meter_readings?schema=public
       - GEMINI_API_KEY=${GEMINI_API_KEY}
+    depends_on:
+      - postgres
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
+    command: sh -c "npx prisma migrate deploy && npm start"
+
+  postgres:
+    image: postgres:13
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=meter_readings
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  postgres-data:
+    driver: local
